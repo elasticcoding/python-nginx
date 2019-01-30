@@ -1,0 +1,17 @@
+[program:gunicorn]
+command = /opt/deploy_script/gunicorn.sh 
+user = nobody
+stdout_logfile = /var/log/supervisor/gunicorn.log
+redirect_stderr = true
+autostart=true
+autorestart=true
+environment=LANG=en_US.UTF-8,LC_ALL=en_US.UTF-8
+
+[program:celery]
+command = /opt/deploy_script/celery.sh 
+user = nobody
+stdout_logfile = /var/log/supervisor/celery.log
+redirect_stderr = true
+autostart=true
+autorestart=true
+environment=LANG=en_US.UTF-8,LC_ALL=en_US.UTF-8
