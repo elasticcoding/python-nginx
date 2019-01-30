@@ -1,0 +1,19 @@
+[program:gunicorn]
+command = /home/ubuntu/.local/bin/gunicorn  -p /tmp/gunicorn.pid PublicTradePlatform.wsgi:application  --name market  --workers 4  --user=ubuntu --group=ubuntu  --bind=127.0.0.1:8001 --log-level=debug  --log-file=-
+user = ubuntu
+directory = /opt/codebase
+stdout_logfile = /opt/gunicorn_supervisor.log
+redirect_stderr = true
+autostart=true
+autorestart=true
+environment=LANG=en_US.UTF-8,LC_ALL=en_US.UTF-8,DJANGO_SETTINGS_MODULE=PublicTradePlatform.settings.stage
+
+[program:celery]
+command = /opt/MarketEnv/bin/celery -A PublicTradePlatform --pidfile="/tmp/celery.pid" worker -l info --concurrency=8 -n market ; Command to start app
+directory= /opt/codebase
+user = ubuntu 
+autostart=true
+autorestart=true                                           ; User to run as
+stdout_logfile = /var/log/supervisor/celery.log   ; Where to write log messages
+redirect_stderr = true                                       ; Save stderr in the same log
+environment=LANG=en_US.UTF-8,LC_ALL=en_US.UTF-8,DJANGO_SETTINGS_MODULE=PublicTradePlatform.settings.stage;
